@@ -29,10 +29,6 @@ resource "google_cloud_run_v2_service" "default" {
   ]
 }
 
-output "service_url" {
-  value = google_cloud_run_v2_service.default.uri
-}
-
 resource "google_service_account" "default" {
   account_id   = "scheduler-sa"
   description  = "Cloud Scheduler service account; used to trigger scheduled Cloud Run jobs."
