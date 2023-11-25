@@ -8,6 +8,11 @@ variable "service_name" {
   type        = string
 }
 
+variable "scheduler_name" {
+  description = "The Cloud Scheduler service name"
+  type        = string
+}
+
 variable "region" {
   description = "The preferred GCP region"
   type        = string

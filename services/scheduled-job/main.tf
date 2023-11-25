@@ -30,9 +30,9 @@ resource "google_cloud_run_v2_service" "default" {
 }
 
 resource "google_service_account" "default" {
-  account_id   = "scheduler-sa"
+  account_id   = var.scheduler_name
   description  = "Cloud Scheduler service account; used to trigger scheduled Cloud Run jobs."
-  display_name = "scheduler-sa"
+  display_name = var.scheduler_name
 
   depends_on = [
     google_project_service.iam_api
@@ -48,7 +48,7 @@ resource "google_cloud_run_service_iam_member" "default" {
 
 # Run every Sunday at 6am SGT
 resource "google_cloud_scheduler_job" "default" {
-  name             = "scheduled-cloud-run-job"
+  name             = var.scheduler_name
   region           = var.region
   description      = "Invoke a Cloud Run container on a schedule."
   schedule         = "0 6 * * SUN"
