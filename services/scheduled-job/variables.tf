@@ -22,3 +22,13 @@ variable "url" {
   description = "The url to the image"
   type        = string
 }
+
+variable "secret_id" {
+  description = "The secret id"
+  type        = string
+}
+
+variable "secret_value" {
+  description = "The secret value"
+  type        = string
+}
