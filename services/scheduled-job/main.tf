@@ -36,7 +36,7 @@ resource "google_secret_manager_secret_version" "secret_id" {
 }
 
 resource "google_service_account" "secret_accessor" {
-  account_id   = "cloud-run-service-account"
+  account_id   = var.service_name
   display_name = "Service account for Cloud Run"
 }
 
