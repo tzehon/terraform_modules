@@ -33,6 +33,11 @@ variable "secret_value" {
   type        = string
 }
 
+variable "connector_name" {
+  description = "The serverless VPC connector name"
+  type        = string
+}
+
 variable "cidr_range" {
   description = "The CIDR range"
   type        = string

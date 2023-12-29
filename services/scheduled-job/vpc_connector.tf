@@ -3,7 +3,7 @@ module "serverless_connector" {
   version    = "~> 8.0"
   project_id = var.project_id
   vpc_connectors = [{
-    name          = "serverless-vpc-connector"
+    name          = var.connector_name
     region        = var.region
     network       = "default"
     subnet_name   = null
