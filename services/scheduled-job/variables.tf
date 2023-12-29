@@ -42,3 +42,13 @@ variable "cidr_range" {
   description = "The CIDR range"
   type        = string
 }
+
+variable "ip_name" {
+  description = "The IP address name"
+  type        = string
+}
+
+variable "router_name" {
+  description = "The Cloud Router Name"
+  type        = string
+}

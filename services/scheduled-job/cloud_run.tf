@@ -28,9 +28,14 @@ resource "google_cloud_run_v2_service" "default" {
         }
       }
     }
+    vpc_access {
+      # connector = module.serverless_connector.default.id
+      connector = tolist(module.serverless_connector.connector_ids)[0]
+      egress    = "ALL_TRAFFIC"
+    }
     service_account = google_service_account.secret_accessor.email
   }
-
+  ingress = "INGRESS_TRAFFIC_ALL"
   # Use an explicit depends_on clause to wait until API is enabled
   depends_on = [
     google_project_service.run_api, google_secret_manager_secret_version.secret_id
