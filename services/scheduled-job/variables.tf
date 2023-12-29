@@ -32,3 +32,8 @@ variable "secret_value" {
   description = "The secret value"
   type        = string
 }
+
+variable "cidr_range" {
+  description = "The CIDR range"
+  type        = string
+}
