@@ -23,13 +23,43 @@ variable "url" {
   type        = string
 }
 
-variable "secret_id" {
-  description = "The secret id"
+variable "access_key_id" {
+  description = "The URA access key secret ID"
   type        = string
 }
 
-variable "secret_value" {
-  description = "The secret value"
+variable "access_key_value" {
+  description = "The URA access key secret value"
+  type        = string
+}
+
+variable "atlas_user_id" {
+  description = "The Atlas user secret ID"
+  type        = string
+}
+
+variable "atlas_user_value" {
+  description = "The Atlas user secret value"
+  type        = string
+}
+
+variable "atlas_password_id" {
+  description = "The Atlas password secret ID"
+  type        = string
+}
+
+variable "atlas_password_value" {
+  description = "The Atlas password secret value"
+  type        = string
+}
+
+variable "atlas_connection_string_id" {
+  description = "The Atlas connection string ID"
+  type        = string
+}
+
+variable "atlas_connection_string_value" {
+  description = "The Atlas connection string value"
   type        = string
 }
 

@@ -3,12 +3,36 @@ resource "google_service_account" "secret_accessor" {
   display_name = "Service account for Cloud Run"
 }
 
-resource "google_secret_manager_secret_iam_member" "secret_accessor" {
-  secret_id = google_secret_manager_secret.secret.id
+resource "google_secret_manager_secret_iam_member" "access_key_id_accessor" {
+  secret_id = google_secret_manager_secret.access_key_id.id
   role      = "roles/secretmanager.secretAccessor"
   # Grant the new deployed service account access to this secret.
   member     = "serviceAccount:${google_service_account.secret_accessor.email}"
-  depends_on = [google_secret_manager_secret.secret]
+  depends_on = [google_secret_manager_secret.access_key_id]
+}
+
+resource "google_secret_manager_secret_iam_member" "atlas_user_id_accessor" {
+  secret_id = google_secret_manager_secret.atlas_user_id.id
+  role      = "roles/secretmanager.secretAccessor"
+  # Grant the new deployed service account access to this secret.
+  member     = "serviceAccount:${google_service_account.secret_accessor.email}"
+  depends_on = [google_secret_manager_secret.atlas_user_id]
+}
+
+resource "google_secret_manager_secret_iam_member" "atlas_password_id_accessor" {
+  secret_id = google_secret_manager_secret.atlas_password_id.id
+  role      = "roles/secretmanager.secretAccessor"
+  # Grant the new deployed service account access to this secret.
+  member     = "serviceAccount:${google_service_account.secret_accessor.email}"
+  depends_on = [google_secret_manager_secret.atlas_password_id]
+}
+
+resource "google_secret_manager_secret_iam_member" "atlas_connection_string_id" {
+  secret_id = google_secret_manager_secret.atlas_connection_string_id.id
+  role      = "roles/secretmanager.secretAccessor"
+  # Grant the new deployed service account access to this secret.
+  member     = "serviceAccount:${google_service_account.secret_accessor.email}"
+  depends_on = [google_secret_manager_secret.atlas_connection_string_id]
 }
 
 resource "google_cloud_run_v2_service" "default" {
@@ -22,7 +46,34 @@ resource "google_cloud_run_v2_service" "default" {
         name = "ACCESS_KEY"
         value_source {
           secret_key_ref {
-            secret  = google_secret_manager_secret.secret.secret_id
+            secret  = google_secret_manager_secret.access_key_id.secret_id
+            version = "latest"
+          }
+        }
+      }
+      env {
+        name = "ATLAS_USER"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.atlas_user_id.secret_id
+            version = "latest"
+          }
+        }
+      }
+      env {
+        name = "ATLAS_PASSWORD"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.atlas_password_id.secret_id
+            version = "latest"
+          }
+        }
+      }
+      env {
+        name = "ATLAS_CONNECTION_STRING"
+        value_source {
+          secret_key_ref {
+            secret  = google_secret_manager_secret.atlas_connection_string_id.secret_id
             version = "latest"
           }
         }
@@ -38,7 +89,11 @@ resource "google_cloud_run_v2_service" "default" {
   ingress = "INGRESS_TRAFFIC_ALL"
   # Use an explicit depends_on clause to wait until API is enabled
   depends_on = [
-    google_project_service.run_api, google_secret_manager_secret_version.secret_id
+    google_project_service.run_api,
+    google_secret_manager_secret_version.access_key_value,
+    google_secret_manager_secret_version.atlas_user_value,
+    google_secret_manager_secret_version.atlas_password_value,
+    google_secret_manager_secret_version.atlas_connection_string_value
   ]
 }
 
