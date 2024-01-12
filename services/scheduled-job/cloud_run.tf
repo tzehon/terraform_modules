@@ -35,6 +35,13 @@ resource "google_secret_manager_secret_iam_member" "atlas_connection_string_id" 
   depends_on = [google_secret_manager_secret.atlas_connection_string_id]
 }
 
+resource "time_rotating" "current_time" {
+  rotation_rfc3339 = timestamp()
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "google_cloud_run_v2_service" "default" {
   name     = var.service_name
   location = var.region
@@ -78,6 +85,10 @@ resource "google_cloud_run_v2_service" "default" {
           }
         }
       }
+      env {
+          name  = "REDEPLOY_TIMESTAMP"
+          value = time_rotating.current_time.rotation_rfc3339
+        }
     }
     vpc_access {
       # connector = module.serverless_connector.default.id
