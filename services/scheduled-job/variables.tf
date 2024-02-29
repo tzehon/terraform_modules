@@ -62,23 +62,3 @@ variable "atlas_connection_string_value" {
   description = "The Atlas connection string value"
   type        = string
 }
-
-variable "connector_name" {
-  description = "The serverless VPC connector name"
-  type        = string
-}
-
-variable "cidr_range" {
-  description = "The CIDR range"
-  type        = string
-}
-
-variable "ip_name" {
-  description = "The IP address name"
-  type        = string
-}
-
-variable "router_name" {
-  description = "The Cloud Router Name"
-  type        = string
-}

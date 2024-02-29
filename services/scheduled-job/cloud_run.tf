@@ -90,11 +90,6 @@ resource "google_cloud_run_v2_service" "default" {
           value = time_rotating.current_time.rotation_rfc3339
         }
     }
-    vpc_access {
-      # connector = module.serverless_connector.default.id
-      connector = tolist(module.serverless_connector.connector_ids)[0]
-      egress    = "ALL_TRAFFIC"
-    }
     service_account = google_service_account.secret_accessor.email
   }
   ingress = "INGRESS_TRAFFIC_ALL"
